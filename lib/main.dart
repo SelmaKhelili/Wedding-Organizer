@@ -1,31 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:wedding_organizer/screens/auth/signup.dart';
-import 'package:wedding_organizer/screens/auth/login.dart';
-import 'package:wedding_organizer/screens/auth/changepassword.dart';
-import 'package:wedding_organizer/screens/auth/privacypolicy.dart';
+import 'package:zefeffete/views/screens/guestslistscreen.dart';
+import 'package:zefeffete/views/screens/Home/homepage.dart';
+import 'package:zefeffete/views/screens/likedvendorsscreen.dart';
+import 'package:zefeffete/views/screens/profilescreen.dart';
+import 'package:zefeffete/views/screens/vendors.screen.dart';
+import 'package:zefeffete/views/screens/venuesscreen.dart';
+import 'package:zefeffete/views/screens/Home/onboardingPages.dart';
+import 'package:zefeffete/views/screens/Home/homepage0.dart';
 
-import 'package:wedding_organizer/screens/profile/profile.dart';
+void main() => runApp(MyApp());
 
-
-
-void main() {
-  runApp(const MainApp());
-}
-
-class MainApp extends StatelessWidget {
-  
-  const MainApp({super.key});
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: OnboardingPages(),
       routes: {
-        Signup.pageroute: (ctx) => const Signup(),
-        Login.pageroute: (ctx) => const Login(),
-        Profile.pageroute: (ctx) => const Profile(),
-        Changepassword.pageroute: (ctx) => const Changepassword(),
-        PrivacyPolicyScreen.pageroute: (ctx) => const PrivacyPolicyScreen(),
+        '/home': (context) => HomeScreen(),
+        '/venues': (context) => Venues(),
+        '/likedVendors': (context) => LikedVendors(),
+        '/guestsList': (context) => GuestsList(),
+        '/vendors': (context) => Vendors(),
+        '/profile': (context) => Profile(),
       },
-      initialRoute: Login.pageroute,
     );
   }
 }
