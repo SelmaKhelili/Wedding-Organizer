@@ -22,14 +22,4 @@ flutter:
   assets:
     - lib/assets/images/flowers1.png
     - lib/assets/images/flowers2.png
-    - assets/profile.jpg
-    - assets/vendor1.jpg
-    - assets/vendor2.jpg
-    - assets/vendor3.jpg
-    - assets/venue1.jpg
-    - assets/venue2.jpg
-    - assets/venue3.jpg
-    - assets/startingPage1.jpg
-    - assets/startingPage2.jpg
-    - assets/startingPage3.jpg
-
+    
