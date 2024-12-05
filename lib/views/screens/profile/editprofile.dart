@@ -365,9 +365,10 @@ class _EditprofileState extends State<Editprofile> {
                         'weddingdate': '$selectedDay $selectedMonth $selectedYear'
                       };
                       _saveEdit(updatedUserData, currentUserEmail);
-                      Navigator.pushNamed(context, Profile.pageroute, arguments: currentUserEmail);
 
                     }
+                      Navigator.pushNamed(context, Profile.pageroute, arguments: currentUserEmail);
+
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromARGB(255, 235, 118, 157),

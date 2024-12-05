@@ -25,6 +25,7 @@ void _saveEdit(Map<String, dynamic> newUserData, String currentUserEmail) {
 
   // Save the casted data
   users[currentUserEmail] = castedUserData;
+
 }
 
 
@@ -33,11 +34,7 @@ class _EditprofileVendorState extends State<EditprofileVendor> {
 
     bool showVendor = false;
     bool showVenue = false;
-    bool isVendor =false;
-    bool isVenue = false;
     final int maxTextLength = 100;
-
-  
     final TextEditingController _aboutController = TextEditingController();
     final TextEditingController _pricingController = TextEditingController();
 
@@ -49,14 +46,9 @@ class _EditprofileVendorState extends State<EditprofileVendor> {
     // Retrieve the user's data from the map.
     final userData = users[currentUserEmail];
     
-    if(userData?['role']== 'vendor')
-      {
-        isVendor = true;
-        }
-    if(userData?['role'] == 'venue')
-     {
-       isVenue = true;
-     }
+    bool  isVendor = userData?['role'] == 'vendor';
+    bool isVenue = userData?['role'] == 'venue';
+
 
     String? selectedWilaya = '';
     String? selectedGender = '';
@@ -104,14 +96,9 @@ class _EditprofileVendorState extends State<EditprofileVendor> {
                 filled: true,
                 fillColor: Color.fromARGB(92, 255, 207, 247),
               ),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter your full name';
-                }
-                return null;
-              },
+              
               onSaved: (value) {
-                fullName = value;
+                fullName = value ?? userData?['name'];
               },
             ),
             const SizedBox(height: 15),
@@ -141,14 +128,9 @@ class _EditprofileVendorState extends State<EditprofileVendor> {
                 filled: true,
                 fillColor: Color.fromARGB(92, 255, 207, 247),
               ),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter a nickname';
-                }
-                return null;
-              },
+              
               onSaved: (value) {
-                nickname = value;
+                nickname = value ?? userData?['nickname'];
               },
             ),
             const SizedBox(height: 15),
@@ -539,14 +521,15 @@ class _EditprofileVendorState extends State<EditprofileVendor> {
                   final updatedUserData = {
                     'name': fullName,
                     'nickname': nickname,
-                    'about': about,
+                    'about': _aboutController.text,
                     'pricingdetails': _pricingController.text,
                     'wilaya': selectedWilaya,
                     'gender': selectedGender,
                   };
-                  _saveEdit(updatedUserData, currentUserEmail);
-                  Navigator.pushNamed(context, Profile.pageroute);
+                 _saveEdit(updatedUserData, currentUserEmail);
+
                 }
+                Navigator.pushNamed(context, Profile.pageroute, arguments: currentUserEmail);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Color.fromARGB(255, 235, 118, 157),

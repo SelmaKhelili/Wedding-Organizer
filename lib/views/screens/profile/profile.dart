@@ -51,7 +51,7 @@ class _ProfileState extends State<Profile> {
     final String currentUserEmail = ModalRoute.of(context)?.settings.arguments as String? ?? 'unknown@domain.com';
     // Retrieve the user's data from the map.
     final userData = users[currentUserEmail] ?? {};
-    bool about = userData['role'] != null && userData['role'] != 'weddingowner';
+    bool about = userData['role'] != 'weddingowner';
 
     return Scaffold(
       body: Center(
