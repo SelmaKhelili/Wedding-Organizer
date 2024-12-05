@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 
 class BottomNavBar extends StatelessWidget {
-  final String currentRoute;
-  const BottomNavBar({Key? key, required this.currentRoute}) : super(key: key);
+  final int currentIndex;
+  final Function(int) onItemTapped;
+
+  const BottomNavBar({
+    Key? key,
+    required this.currentIndex,
+    required this.onItemTapped,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,34 +22,21 @@ class BottomNavBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _buildNavItem(context,
-              icon: Icons.home, label: "Home", route: '/home'),
-          _buildNavItem(context,
-              icon: Icons.location_on, label: "Venues", route: '/venues'),
-          _buildNavItem(context,
-              icon: Icons.favorite_border,
-              label: "liked vendors",
-              route: '/likedVendors'),
-          _buildNavItem(context,
-              icon: Icons.group, label: "Guests", route: '/guestsList'),
-          _buildNavItem(context,
-              icon: Icons.menu, label: "Vendors", route: '/vendors'),
-          _buildNavItem(context,
-              icon: Icons.person, label: "Profile", route: '/profile'),
+          _buildNavItem(0, Icons.home, "Home"),
+          _buildNavItem(1, Icons.location_on, "Venues"),
+          _buildNavItem(2, Icons.favorite_border, "Liked Vendors"),
+          _buildNavItem(3, Icons.group, "Guests"),
+          _buildNavItem(4, Icons.menu, "Vendors"),
+          _buildNavItem(5, Icons.person, "Profile"),
         ],
       ),
     );
   }
 
-  Widget _buildNavItem(BuildContext context,
-      {required IconData icon, required String label, required String route}) {
-    final isSelected = currentRoute == route;
+  Widget _buildNavItem(int index, IconData icon, String label) {
+    final isSelected = currentIndex == index;
     return GestureDetector(
-      onTap: () {
-        if (!isSelected) {
-          Navigator.pushNamed(context, route);
-        }
-      },
+      onTap: () => onItemTapped(index), // Call the function to change the page
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -68,9 +61,7 @@ class BottomNavBar extends StatelessWidget {
                 child: Text(
                   label,
                   style: TextStyle(
-                      color: Color.fromARGB(255, 158, 4, 86),
-                      //fontWeight: FontWeight.bold,
-                      fontSize: 10),
+                      color: Color.fromARGB(255, 158, 4, 86), fontSize: 10),
                 ),
               ),
           ],
