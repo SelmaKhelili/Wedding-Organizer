@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:wedding_organizer/data/users.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:wedding_organizer/screens/auth/changepassword.dart';
-import 'package:wedding_organizer/screens/auth/signup.dart';
-import 'package:wedding_organizer/screens/profile/profile.dart';
+import 'package:wedding_organizer/views/screens/auth/changepassword.dart';
+import 'package:wedding_organizer/views/screens/auth/signup.dart';
+import 'package:wedding_organizer/views/screens/profile/profile.dart';
 
 class Login extends StatefulWidget {
   static const String pageroute = '/login';
@@ -26,12 +26,14 @@ class _LoginState extends State<Login> {
 
   void _login(String email, String password) {
     if (_loginformkey.currentState?.validate() ?? false) {
+     // ignore: avoid_print
       print('Login successful');
       if (mounted) {
+   
         Navigator.pushNamed(
-          context,
+          context ,
           Profile.pageroute,
-          arguments: _loginemailController.text,
+          arguments: email,
         );
       }
     }

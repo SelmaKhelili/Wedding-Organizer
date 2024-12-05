@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:wedding_organizer/screens/auth/login.dart';
-import 'package:wedding_organizer/screens/auth/privacypolicy.dart';
-import 'package:wedding_organizer/screens/profile/profile.dart';
+import 'package:wedding_organizer/views/screens/auth/login.dart';
+import 'package:wedding_organizer/views/screens/auth/privacypolicy.dart';
 import 'package:wedding_organizer/data/users.dart';
 
 
@@ -15,7 +14,7 @@ class Signup extends StatefulWidget {
 }
 
 class _SignupState extends State<Signup> {
-  String role = 'None';
+  String role = 'weddingowner';
   bool _isCheckboxError = false; // Track checkbox validation error
   bool _isAgreed = false; // Track whether the checkbox is checked
   final _emailController = TextEditingController();
@@ -37,6 +36,7 @@ void addUser(String email, String password) {
   // Add the user to the map
   users[email] = {
     'name': generatedName,
+    'nickname': generatedName,
     'password': password,
     'role': role,
   };
@@ -46,22 +46,20 @@ void addUser(String email, String password) {
 
 
 void _register() {
-  setState(() {
-    _isCheckboxError = !_isAgreed;
-  });
- 
-
-  if (!_isAgreed || _emailController.text.isEmpty || _passwordController.text.isEmpty ) {
-    return;
-  }
-
-  // Proceed with the form validation if checkbox is checked
-  if (_signupFormKey .currentState?.validate() ?? false) {
+  if (_signupFormKey.currentState?.validate() ?? false) {
       addUser(_emailController.text, _passwordController.text);
     // ignore: avoid_print
     print('Registration successful');
     Navigator.pushNamed(context, Login.pageroute , arguments: _emailController.text);
   }
+  setState(() {
+    _isCheckboxError = !_isAgreed;
+  });
+ 
+  if (!_isAgreed || _emailController.text.isEmpty || _passwordController.text.isEmpty ) {
+    return;
+  }
+  
 }
   @override
   Widget build(BuildContext context) {
@@ -153,15 +151,16 @@ void _register() {
                                                   TextFormField(
                                                     controller: _emailController,
                                                     validator: (email) {
-                                                      if (email == null || email.isEmpty) {
-                                                        return 'Please enter your email';
-                                                      }
-                                                      // Email regex to check if it's in the correct format
-                                                      final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+$');
-                                                      if (!emailRegex.hasMatch(email)) {
-                                                        return 'Please enter a valid email';
-                                                      }
-                                                      return null; // If email is valid
+                                                        if (email == null || email.isEmpty) {
+                                                          return 'Please enter your email';
+                                                        }
+                                                        if (!email.contains('@') || !email.contains('.')) {
+                                                          return 'Please enter a valid email';
+                                                        }
+                                                        if (users.containsKey(email)) {
+                                                          return 'This email is already registered';
+                                                        }
+                                                        return null;
                                                       },
                                                     decoration: InputDecoration(
                                                       border: OutlineInputBorder(
@@ -276,17 +275,17 @@ void _register() {
                                                   ),
                                                   items: [
                                                     DropdownMenuItem<String>(
-                                                      value: 'None',
+                                                      value: 'weddingowner',
                                                       child: SizedBox(
                                                         width: 100,
                                                         child: Text(
-                                                          'None',
+                                                          'Wedding owner',
                                                           style: TextStyle(color: Color.fromARGB(255, 103, 102, 103)), // Grey color text
                                                         ),
                                                       ),
                                                     ),
                                                     DropdownMenuItem<String>(
-                                                      value: 'Vendor',
+                                                      value: 'vendor',
                                                       child: SizedBox(
                                                         width: 100, // Adjust width to fit content
                                                         child: Text(
@@ -296,7 +295,7 @@ void _register() {
                                                       ),
                                                     ),
                                                     DropdownMenuItem<String>(
-                                                      value: 'Venue',
+                                                      value: 'venue',
                                                       child: SizedBox(
                                                         width: 100, // Adjust width to fit content
                                                         child: Text(
@@ -308,7 +307,7 @@ void _register() {
                                                   ],
                                                   onChanged: (value) {
                                                     setState(() {
-                                                      role = value ?? 'None';
+                                                      role = value ?? 'weddingowner';
                                                     });
                                                   },
                                                   style: TextStyle(

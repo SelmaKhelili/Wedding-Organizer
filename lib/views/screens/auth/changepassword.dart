@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wedding_organizer/data/users.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:wedding_organizer/screens/auth/login.dart';
+import 'package:wedding_organizer/views/screens/auth/login.dart';
 
 class Changepassword extends StatefulWidget {
   static const String pageroute = '/Changepassword';
@@ -13,9 +13,9 @@ class Changepassword extends StatefulWidget {
 }
 
 class _ChangepasswordState extends State<Changepassword> {
-  final TextEditingController _Changepassword_Controller = TextEditingController();
-  final TextEditingController _Changepasswordemail_Controller = TextEditingController();
-  final TextEditingController  _confirmChangepassword_Controller = TextEditingController();
+  final TextEditingController changepasswordController = TextEditingController();
+  final TextEditingController changepasswordemailController = TextEditingController();
+  final TextEditingController  confirmChangepasswordController = TextEditingController();
   final GlobalKey<FormState> _changePasswordformkey = GlobalKey<FormState>();
 
  
@@ -28,7 +28,7 @@ class _ChangepasswordState extends State<Changepassword> {
   void _changePassword(String password) {
     if (_changePasswordformkey.currentState?.validate() ?? false) {
 
-      users[_Changepasswordemail_Controller.text]?['password'] = password;
+      users[changepasswordemailController.text]?['password'] = password;
     // ignore: avoid_print
       print('change password successful');
       if (mounted) {
@@ -130,7 +130,7 @@ class _ChangepasswordState extends State<Changepassword> {
                                    Text('    Email Address'),
                                   SizedBox(height: 2),
                                   TextFormField(
-                                    controller: _Changepasswordemail_Controller,
+                                    controller: changepasswordemailController,
                                     validator: (email) {
                                       if (email == null || email.isEmpty) {
                                         return 'Please enter your email';
@@ -168,7 +168,7 @@ class _ChangepasswordState extends State<Changepassword> {
                                   Text('    Password'),
                                   SizedBox(height: 2),
                                   TextFormField(
-                                    controller: _Changepassword_Controller,
+                                    controller: changepasswordController,
                                     validator: (password) {
                                                       if (password == null || password.isEmpty) {
                                                         return 'Please enter your password';
@@ -204,12 +204,12 @@ class _ChangepasswordState extends State<Changepassword> {
                                   Text('    Confirm Password'),
                                   SizedBox(height: 2),
                                   TextFormField(
-                                    controller: _confirmChangepassword_Controller,
+                                    controller: confirmChangepasswordController,
                                    validator: (password) {
                                                       if (password == null || password.isEmpty) {
                                                         return 'Please enter your password';
                                                       }
-                                                      if (password != _Changepassword_Controller.text) {
+                                                      if (password != changepasswordController.text) {
                                                         return 'Passwords do not match';
                                                       }
                                                       return null;
@@ -242,7 +242,7 @@ class _ChangepasswordState extends State<Changepassword> {
                                   SizedBox(height: 20),
                                      ElevatedButton(
                                        onPressed: (){
-                                      _changePassword(_confirmChangepassword_Controller.text);
+                                      _changePassword(confirmChangepasswordController.text);
                                           },
                                           style: ElevatedButton.styleFrom(
                                           backgroundColor: Color.fromARGB(255, 196, 120, 158), 

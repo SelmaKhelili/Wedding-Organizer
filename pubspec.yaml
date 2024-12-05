@@ -22,4 +22,9 @@ flutter:
   assets:
     - lib/assets/images/flowers1.png
     - lib/assets/images/flowers2.png
+    - lib/assets/images/aliance.png
+    - lib/assets/images/profilepic.png
+    - lib/assets/images/algeria_flag.jpg
+
+
 
