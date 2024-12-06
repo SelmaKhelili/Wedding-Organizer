@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BottomNavBar extends StatelessWidget {
   final String currentRoute;
@@ -38,10 +39,23 @@ class BottomNavBar extends StatelessWidget {
   Widget _buildNavItem(BuildContext context,
       {required IconData icon, required String label, required String route}) {
     final isSelected = currentRoute == route;
+
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
+        print('Tapped on $label with route $route'); // Debugging
         if (!isSelected) {
-          Navigator.pushNamed(context, route);
+          if (route == '/vendors' || route == '/venues') {
+            // Navigate directly to the Vendors or Venues page
+            Navigator.pushNamed(context, route);
+          } else {
+            bool isLoggedIn = await _checkLoginStatus();
+            print('Is user logged in: $isLoggedIn'); // Debugging
+            if (isLoggedIn || route == '/home') {
+              Navigator.pushNamed(context, route);
+            } else {
+              Navigator.pushNamed(context, '/loginrequired');
+            }
+          }
         }
       },
       child: AnimatedContainer(
@@ -68,14 +82,19 @@ class BottomNavBar extends StatelessWidget {
                 child: Text(
                   label,
                   style: TextStyle(
-                      color: Color.fromARGB(255, 158, 4, 86),
-                      //fontWeight: FontWeight.bold,
-                      fontSize: 10),
+                      color: Color.fromARGB(255, 158, 4, 86), fontSize: 10),
                 ),
               ),
           ],
         ),
       ),
     );
+  }
+
+  Future<bool> _checkLoginStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await SharedPreferences.getInstance();
+    //await prefs.clear();
+    return prefs.getBool('isLoggedIn') ?? false;
   }
 }
